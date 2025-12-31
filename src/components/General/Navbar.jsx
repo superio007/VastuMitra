@@ -9,6 +9,8 @@ const Navbar = () => {
   const toggleDropdown = (menu) => {
     setOpenDropdown(openDropdown === menu ? null : menu);
   };
+  const token = JSON.parse(localStorage.getItem("authUser")).token;
+  console.log(token);
 
   return (
     <>
@@ -24,20 +26,20 @@ const Navbar = () => {
               />
             </div>
             <nav className="hidden md:flex space-x-8">
-              {["Buy", "Rent", "New Projects"].map((item) => (
+              {["Buy", "Rent", "Sell"].map((item) => (
                 <div key={item} className="relative group">
                   <button className="text-gray-900 hover:text-brand-maroon px-3 py-2 rounded-md text-sm font-medium transition-colors">
                     {item}
                   </button>
                   <div className="absolute left-0 mt-0 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                     <Link
-                      to={`/listings/${item.toLowerCase()}&type=commercial`}
+                      to={`/listings?type=commercial&for=${item?.toLowerCase()}`}
                       className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 rounded-t-md"
                     >
                       Commercial
                     </Link>
                     <Link
-                      to={`/listings/${item.toLowerCase()}&type=residential`}
+                      to={`/listings?type=residential&for=${item?.toLowerCase()}`}
                       className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 rounded-b-md"
                     >
                       Residential
@@ -45,6 +47,25 @@ const Navbar = () => {
                   </div>
                 </div>
               ))}
+              <div className="relative group">
+                <button className="text-gray-900 hover:text-brand-maroon px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                  New Properties
+                </button>
+                <div className="absolute left-0 mt-0 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                  <Link
+                    to="/listings?type=commercial"
+                    className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 rounded-t-md"
+                  >
+                    Commercial
+                  </Link>
+                  <Link
+                    to="/listings?type=residential"
+                    className="block px-4 py-2 text-sm text-gray-900 hover:bg-gray-100 rounded-b-md"
+                  >
+                    Residential
+                  </Link>
+                </div>
+              </div>
               <Link
                 className="text-gray-900 hover:text-brand-maroon px-3 py-2 rounded-md text-sm font-medium transition-colors"
                 to="/about"
@@ -59,17 +80,31 @@ const Navbar = () => {
               </Link>
             </nav>
             <div className="flex items-center">
-              <Link
-                className="bg-brand-maroon hover:bg-opacity-90 text-white px-6 py-2 rounded-full text-sm font-medium shadow-md transition-all"
-                to="/post-requirement"
-                style={{
-                  backgroundColor: "#d73818",
-                  color: "white",
-                  borderRadius: "20px",
-                }}
-              >
-                Post Requirement
-              </Link>
+              {!token ? (
+                <Link
+                  className="bg-brand-maroon hover:bg-opacity-90 text-white px-6 py-2 rounded-full text-sm font-medium shadow-md transition-all"
+                  to="/post-requirement"
+                  style={{
+                    backgroundColor: "#d73818",
+                    color: "white",
+                    borderRadius: "20px",
+                  }}
+                >
+                  Post Requirement
+                </Link>
+              ) : (
+                <Link
+                  className="bg-brand-maroon hover:bg-opacity-90 text-white px-6 py-2 rounded-full text-sm font-medium shadow-md transition-all"
+                  to="/dashboard"
+                  style={{
+                    backgroundColor: "#d73818",
+                    color: "white",
+                    borderRadius: "20px",
+                  }}
+                >
+                  Dashboard
+                </Link>
+              )}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import PostReqForm from "../components/ui/PostReqForms";
+import PostReqForm from "../../components/ui/PostReqForms";
 const PostRequirements = () => {
   return (
     <>
